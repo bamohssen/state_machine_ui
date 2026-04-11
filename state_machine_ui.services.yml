@@ -1,0 +1,58 @@
+services:
+  _defaults:
+    autowire: true
+
+  Drupal\state_machine_ui\Hook\StateMachineUiHooks:
+    class: Drupal\state_machine_ui\Hook\StateMachineUiHooks
+
+  Drupal\state_machine_ui\Hook\FormHooks:
+    class: Drupal\state_machine_ui\Hook\FormHooks
+    arguments:
+      $resolver: '@state_machine_ui.conditional_field_resolver'
+      $validator: '@state_machine_ui.conditional_required_validator'
+
+  state_machine_ui.mermaid_builder:
+    class: Drupal\state_machine_ui\Service\MermaidDiagramBuilder
+
+  Drupal\state_machine_ui\Service\MermaidDiagramBuilder:
+    alias: state_machine_ui.mermaid_builder
+
+  state_machine_ui.mermaid_locator:
+    class: Drupal\state_machine_ui\Service\MermaidLibraryLocator
+
+  Drupal\state_machine_ui\Service\MermaidLibraryLocator:
+    alias: state_machine_ui.mermaid_locator
+
+  state_machine_ui.conditions_table_builder:
+    class: Drupal\state_machine_ui\Form\ConditionsTableBuilder
+    arguments:
+      $workflowManager: '@plugin.manager.workflow'
+
+  Drupal\state_machine_ui\Form\ConditionsTableBuilder:
+    alias: state_machine_ui.conditions_table_builder
+
+  state_machine_ui.conditional_field_resolver:
+    class: Drupal\state_machine_ui\Service\ConditionalFieldResolver
+
+  Drupal\state_machine_ui\Service\ConditionalFieldResolverInterface:
+    alias: state_machine_ui.conditional_field_resolver
+
+  state_machine_ui.conditional_required_validator:
+    class: Drupal\state_machine_ui\Validation\ConditionalRequiredValidator
+
+  Drupal\state_machine_ui\Validation\ConditionalRequiredValidatorInterface:
+    alias: state_machine_ui.conditional_required_validator
+
+  state_machine_ui.metadata_reader:
+    class: Drupal\state_machine_ui\Service\WorkflowMetadataReader
+    arguments:
+      $workflowManager: '@plugin.manager.workflow'
+
+  Drupal\state_machine_ui\Service\WorkflowMetadataReaderInterface:
+    alias: state_machine_ui.metadata_reader
+
+  state_machine_ui.metadata_filter:
+    class: Drupal\state_machine_ui\Service\MetadataFilter
+
+  Drupal\state_machine_ui\Service\MetadataFilterInterface:
+    alias: state_machine_ui.metadata_filter

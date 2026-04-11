@@ -1,0 +1,413 @@
+# French translation of State Machine UI module.
+# Copyright (C) 2026
+# This file is distributed under the same license as the state_machine_ui module.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: state_machine_ui\n"
+"POT-Creation-Date: 2026-04-10 00:00+0000\n"
+"PO-Revision-Date: 2026-04-10 00:00+0000\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: fr\n"
+
+# ============================================================
+# Module info & permissions
+# ============================================================
+
+msgid "State Machine UI"
+msgstr "State Machine UI"
+
+msgid "Admin UI for State Machine workflows: manage groups, states, transitions and a custom widget."
+msgstr "Interface d'administration pour les workflows State Machine : gérer les groupes, états, transitions et widget personnalisé."
+
+msgid "Administer state machine workflows"
+msgstr "Administrer les workflows State Machine"
+
+msgid "Create, edit, and delete workflow groups and workflows."
+msgstr "Créer, modifier et supprimer les groupes et workflows."
+
+msgid "View state machine diagram"
+msgstr "Voir le diagramme du workflow"
+
+msgid "See the Mermaid.js workflow diagram on entity forms."
+msgstr "Afficher le diagramme Mermaid.js sur les formulaires des entités."
+
+# ============================================================
+# Menu, actions, routing
+# ============================================================
+
+msgid "State Machine Workflows"
+msgstr "Workflows State Machine"
+
+msgid "Manage State Machine workflows."
+msgstr "Gérer les workflows State Machine."
+
+msgid "Workflow Groups"
+msgstr "Groupes de workflow"
+
+msgid "Manage State Machine workflow groups."
+msgstr "Gérer les groupes de workflow State Machine."
+
+msgid "Add workflow"
+msgstr "Ajouter un workflow"
+
+msgid "Add group"
+msgstr "Ajouter un groupe"
+
+msgid "Add workflow group"
+msgstr "Ajouter un groupe de workflow"
+
+msgid "Edit workflow"
+msgstr "Modifier le workflow"
+
+msgid "Edit workflow group"
+msgstr "Modifier le groupe"
+
+msgid "Delete workflow"
+msgstr "Supprimer le workflow"
+
+msgid "Delete workflow group"
+msgstr "Supprimer le groupe"
+
+# ============================================================
+# List builders
+# ============================================================
+
+msgid "Workflow"
+msgstr "Workflow"
+
+msgid "Group"
+msgstr "Groupe"
+
+msgid "Machine name"
+msgstr "Nom système"
+
+msgid "Entity type"
+msgstr "Type d'entité"
+
+msgid "None"
+msgstr "Aucun"
+
+msgid "Not set"
+msgstr "Non défini"
+
+# ============================================================
+# WorkflowGroupForm
+# ============================================================
+
+msgid "Group name"
+msgstr "Nom du groupe"
+
+msgid "The entity type this workflow group applies to."
+msgstr "Le type d'entité auquel ce groupe de workflow s'applique."
+
+msgid "Created group %label."
+msgstr "Groupe %label créé."
+
+msgid "Updated group %label."
+msgstr "Groupe %label mis à jour."
+
+# ============================================================
+# WorkflowForm — general
+# ============================================================
+
+msgid "Workflow name"
+msgstr "Nom du workflow"
+
+msgid "A human-readable name, e.g. \"Article publication\" or \"Patient pre-admission\"."
+msgstr "Nom lisible, ex. « Publication article » ou « Pré-admission patient »."
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Optional. Describe the purpose of this workflow."
+msgstr "Facultatif. Décrivez la finalité de ce workflow."
+
+msgid "Workflow group"
+msgstr "Groupe de workflow"
+
+msgid "Groups are linked to an entity type. <a href=\":url\">Manage groups</a>."
+msgstr "Les groupes sont liés à un type d'entité. <a href=\":url\">Gérer les groupes</a>."
+
+msgid "- Select a group -"
+msgstr "- Choisir un groupe -"
+
+msgid "Created workflow %label."
+msgstr "Workflow %label créé."
+
+msgid "Updated workflow %label."
+msgstr "Workflow %label mis à jour."
+
+# ============================================================
+# WorkflowForm — bindings
+# ============================================================
+
+msgid "Entity bindings"
+msgstr "Liaisons entité"
+
+msgid "Select the bundle and the <em>state</em> field to bind this workflow to."
+msgstr "Sélectionnez le bundle et le champ <em>state</em> à lier à ce workflow."
+
+msgid "Select a workflow group first to configure bindings."
+msgstr "Sélectionnez d'abord un groupe de workflow."
+
+msgid "Bundle"
+msgstr "Bundle"
+
+msgid "Field"
+msgstr "Champ"
+
+msgid "Operations"
+msgstr "Actions"
+
+msgid "No bindings defined."
+msgstr "Aucune liaison définie."
+
+msgid "- Select -"
+msgstr "- Choisir -"
+
+msgid "No <em>state</em> field found on this bundle. <a href=\":url\">Add one first</a>."
+msgstr "Aucun champ <em>state</em> trouvé sur ce bundle. <a href=\":url\">Ajoutez-en un</a>."
+
+msgid "Add binding"
+msgstr "Ajouter une liaison"
+
+# ============================================================
+# WorkflowForm — field definitions
+# ============================================================
+
+msgid "Custom field definitions"
+msgstr "Définitions de champs personnalisés"
+
+msgid "Optional. Define metadata fields that each state can carry (e.g. <em>tags</em>, <em>category</em>). These can be used for metadata filtering in the widget."
+msgstr "Facultatif. Définissez des champs metadata portés par chaque état (ex. <em>tags</em>, <em>category</em>). Utilisables pour le filtrage dans le widget."
+
+msgid "Label"
+msgstr "Libellé"
+
+msgid "Key"
+msgstr "Clé"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "No custom fields defined."
+msgstr "Aucun champ personnalisé défini."
+
+msgid "Help text"
+msgstr "Texte d'aide"
+
+msgid "Add field"
+msgstr "Ajouter un champ"
+
+# ============================================================
+# WorkflowForm — states
+# ============================================================
+
+msgid "States"
+msgstr "États"
+
+msgid "Define all workflow states. Each needs a label and a unique machine name. Mark exactly one as <em>Initial</em>. <strong>Add states before transitions</strong> — the transition options come from here."
+msgstr "Définissez tous les états du workflow. Chaque état nécessite un libellé et un nom système unique. Marquez exactement un état comme <em>Initial</em>. <strong>Ajoutez les états avant les transitions</strong> — les options de transition en proviennent."
+
+msgid "State @n"
+msgstr "État @n"
+
+msgid "e.g. \"Draft\", \"Under review\", \"Published\"."
+msgstr "ex. « Brouillon », « En relecture », « Publié »."
+
+msgid "Lowercase, underscores only: \"draft\", \"under_review\"."
+msgstr "Minuscules et underscores uniquement : « brouillon », « en_relecture »."
+
+msgid "Optional internal notes."
+msgstr "Notes internes facultatives."
+
+msgid "Initial state"
+msgstr "État initial"
+
+msgid "Default state for new entities. Mark exactly one."
+msgstr "État par défaut pour les nouvelles entités. Un seul état doit être marqué."
+
+msgid "Metadata fields"
+msgstr "Champs metadata"
+
+msgid "Remove"
+msgstr "Supprimer"
+
+msgid "Remove state"
+msgstr "Supprimer l'état"
+
+msgid "One value per line."
+msgstr "Une valeur par ligne."
+
+msgid "Add state"
+msgstr "Ajouter un état"
+
+# ============================================================
+# WorkflowForm — transitions
+# ============================================================
+
+msgid "Transitions"
+msgstr "Transitions"
+
+msgid "Define allowed transitions. Each needs a label, machine name, one or more <em>From</em> states, and one <em>To</em> state."
+msgstr "Définissez les transitions autorisées. Chaque transition nécessite un libellé, un nom système, un ou plusieurs états <em>Depuis</em>, et un état <em>Vers</em>."
+
+msgid "From"
+msgstr "Depuis"
+
+msgid "To"
+msgstr "Vers"
+
+msgid "No transitions defined. Add states first, then add transitions here."
+msgstr "Aucune transition définie. Ajoutez d'abord des états."
+
+msgid "Add transition"
+msgstr "Ajouter une transition"
+
+msgid "Diagram preview"
+msgstr "Aperçu du diagramme"
+
+# ============================================================
+# ConditionsTableBuilder
+# ============================================================
+
+msgid "Conditional field rules"
+msgstr "Règles conditionnelles"
+
+msgid "Fields referenced in rules are hidden by default. They become visible when the matching target state is selected. If marked required, validation is enforced server-side."
+msgstr "Les champs référencés sont masqués par défaut. Ils deviennent visibles quand l'état cible correspondant est sélectionné. Si marqués obligatoires, la validation est appliquée côté serveur."
+
+msgid "Target state"
+msgstr "État cible"
+
+msgid "Required"
+msgstr "Obligatoire"
+
+msgid "No rules defined. Click \"Add rule\" to create one."
+msgstr "Aucune règle définie. Cliquez sur « Ajouter une règle »."
+
+msgid "Add rule"
+msgstr "Ajouter une règle"
+
+msgid "State"
+msgstr "État"
+
+# ============================================================
+# StateFieldRulesWidget
+# ============================================================
+
+msgid "State with rules"
+msgstr "État avec règles"
+
+msgid "When no transition is available"
+msgstr "Quand aucune transition n'est disponible"
+
+msgid "Hide the select, show current state only"
+msgstr "Masquer le sélecteur, afficher uniquement l'état courant"
+
+msgid "Show a custom message"
+msgstr "Afficher un message personnalisé"
+
+msgid "No transition message"
+msgstr "Message si aucune transition"
+
+msgid "No transitions available."
+msgstr "Aucune transition disponible."
+
+msgid "Show workflow diagram"
+msgstr "Afficher le diagramme du workflow"
+
+msgid "Display a Mermaid.js diagram of possible transitions from the current state."
+msgstr "Affiche un diagramme Mermaid.js des transitions possibles depuis l'état courant."
+
+msgid "Mermaid.js library not found. Install it in <code>libraries/mermaid/dist/</code>."
+msgstr "Bibliothèque Mermaid.js introuvable. Installez-la dans <code>libraries/mermaid/dist/</code>."
+
+msgid "Metadata filtering"
+msgstr "Filtrage par metadata"
+
+msgid "Filter which states and transitions are shown based on workflow metadata."
+msgstr "Filtrer les états et transitions affichés selon les metadata du workflow."
+
+msgid "State metadata filters"
+msgstr "Filtres sur les états"
+
+msgid "Transition metadata filters"
+msgstr "Filtres sur les transitions"
+
+msgid "Filter logic between keys"
+msgstr "Logique entre les clés"
+
+msgid "AND — must match all keys"
+msgstr "ET — doit correspondre à toutes les clés"
+
+msgid "OR — must match at least one key"
+msgstr "OU — doit correspondre à au moins une clé"
+
+msgid "No transition: show message \"@msg\""
+msgstr "Aucune transition : message « @msg »"
+
+msgid "No transition: hide select"
+msgstr "Aucune transition : masquer le sélecteur"
+
+msgid "@count conditional rule(s)"
+msgstr "@count règle(s) conditionnelle(s)"
+
+msgid "State filters: @keys"
+msgstr "Filtres états : @keys"
+
+msgid "Transition filters: @keys"
+msgstr "Filtres transitions : @keys"
+
+msgid "Filter logic: @logic"
+msgstr "Logique : @logic"
+
+msgid "Diagram: enabled"
+msgstr "Diagramme : activé"
+
+msgid "Diagram: enabled (library missing)"
+msgstr "Diagramme : activé (bibliothèque manquante)"
+
+msgid "Current state"
+msgstr "État courant"
+
+msgid "Transition to"
+msgstr "Transitionner vers"
+
+msgid "Possible transitions"
+msgstr "Transitions possibles"
+
+# ============================================================
+# ConditionalRequiredValidator
+# ============================================================
+
+msgid "@field is required when transitioning to @state."
+msgstr "Le champ @field est obligatoire pour la transition vers @state."
+
+# ============================================================
+# StateMachineUiHooks — Mermaid requirements
+# ============================================================
+
+msgid "State Machine UI — Mermaid.js"
+msgstr "State Machine UI — Mermaid.js"
+
+msgid "Installed"
+msgstr "Installée"
+
+msgid "Not installed"
+msgstr "Non installée"
+
+msgid "The Mermaid.js library is not installed. To enable workflow diagrams, download it and place <code>mermaid.min.js</code> in <code>@path</code>."
+msgstr "La bibliothèque Mermaid.js n'est pas installée. Pour activer les diagrammes, téléchargez-la et placez <code>mermaid.min.js</code> dans <code>@path</code>."
+
+# ============================================================
+# Install migration
+# ============================================================
+
+msgid "State Machine UI: migrated @groups group(s) and @workflows workflow(s) from YAML to Config Entities. The YAML files still take priority. Remove them to use the UI-managed versions."
+msgstr "State Machine UI : @groups groupe(s) et @workflows workflow(s) importés depuis YAML. Les fichiers YAML restent prioritaires. Supprimez-les pour utiliser les versions gérées via l'UI."

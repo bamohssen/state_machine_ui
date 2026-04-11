@@ -1,0 +1,8 @@
+administer state machine workflows:
+  title: 'Administer state machine workflows'
+  description: 'Create, edit, and delete workflow groups and workflows.'
+  restrict access: true
+
+view state machine diagram:
+  title: 'View state machine diagram'
+  description: 'See the Mermaid.js workflow diagram on entity forms.'

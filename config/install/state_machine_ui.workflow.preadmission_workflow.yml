@@ -1,0 +1,81 @@
+id: preadmission_workflow
+label: 'Parcours pré-admission'
+description: 'Workflow de gestion des pré-admissions patient.'
+group: preadmission
+entity_bindings:
+  - entity_type: node
+    bundle: preadmission
+    field_name: field_status
+field_definitions:
+  - key: tags
+    label: 'Tags'
+    type: list
+    description: 'Tags associés au statut.'
+  - key: reason
+    label: "Motif d'hospitalisation"
+    type: list
+    description: "Motifs d'hospitalisation possibles."
+states:
+  - key: en_cours_patient
+    label: 'En cours patient'
+    description: 'En attente de complétion par le patient.'
+    is_initial: true
+    fields:
+      tags:
+        - chirurgie
+        - ambulatoire
+        - urgence
+      reason:
+        - fracture
+        - bilan_preoperatoire
+        - consultation_specialisee
+  - key: en_cours_secretariat
+    label: 'En cours secrétariat'
+    description: 'En traitement par le secrétariat.'
+    is_initial: false
+    fields:
+      tags:
+        - verification
+        - documents_manquants
+      reason:
+        - fracture
+        - bilan_preoperatoire
+  - key: validee
+    label: 'Validée'
+    description: 'Pré-admission validée.'
+    is_initial: false
+    fields:
+      tags:
+        - complete
+      reason: []
+  - key: rejetee
+    label: 'Rejetée'
+    description: 'Pré-admission rejetée.'
+    is_initial: false
+    fields:
+      tags:
+        - annulation
+        - doublon
+      reason: []
+transitions:
+  - key: soumettre
+    label: 'Soumettre au secrétariat'
+    from:
+      - en_cours_patient
+    to: en_cours_secretariat
+  - key: valider
+    label: 'Valider'
+    from:
+      - en_cours_secretariat
+    to: validee
+  - key: rejeter
+    label: 'Rejeter'
+    from:
+      - en_cours_patient
+      - en_cours_secretariat
+    to: rejetee
+  - key: reouvrir
+    label: 'Réouvrir'
+    from:
+      - rejetee
+    to: en_cours_patient

@@ -1,0 +1,148 @@
+state_machine_ui.workflow_group.*:
+  type: config_entity
+  label: 'Workflow Group'
+  mapping:
+    id:
+      type: string
+      label: 'Machine name'
+    label:
+      type: label
+      label: 'Label'
+    entity_type:
+      type: string
+      label: 'Entity type ID'
+
+state_machine_ui.workflow.*:
+  type: config_entity
+  label: 'State Machine Workflow'
+  mapping:
+    id:
+      type: string
+      label: 'Machine name'
+    label:
+      type: label
+      label: 'Label'
+    description:
+      type: text
+      label: 'Description'
+    group:
+      type: string
+      label: 'Workflow group ID'
+    entity_bindings:
+      type: sequence
+      label: 'Entity bindings'
+      sequence:
+        type: mapping
+        label: 'Binding'
+        mapping:
+          entity_type:
+            type: string
+            label: 'Entity type ID'
+          bundle:
+            type: string
+            label: 'Bundle'
+          field_name:
+            type: string
+            label: 'Status field name'
+    field_definitions:
+      type: sequence
+      label: 'Custom field definitions'
+      sequence:
+        type: mapping
+        label: 'Field definition'
+        mapping:
+          key:
+            type: string
+            label: 'Machine name'
+          label:
+            type: label
+            label: 'Label'
+          type:
+            type: string
+            label: 'Field type'
+          description:
+            type: text
+            label: 'Help text'
+    states:
+      type: sequence
+      label: 'States'
+      sequence:
+        type: mapping
+        label: 'State'
+        mapping:
+          key:
+            type: string
+            label: 'Machine name'
+          label:
+            type: label
+            label: 'Label'
+          description:
+            type: text
+            label: 'Description'
+          is_initial:
+            type: boolean
+            label: 'Is initial state'
+          fields:
+            type: mapping
+            label: 'Custom field values'
+    transitions:
+      type: sequence
+      label: 'Transitions'
+      sequence:
+        type: mapping
+        label: 'Transition'
+        mapping:
+          key:
+            type: string
+            label: 'Machine name'
+          label:
+            type: label
+            label: 'Label'
+          from:
+            type: sequence
+            label: 'From states'
+            sequence:
+              type: string
+              label: 'State key'
+          to:
+            type: string
+            label: 'To state'
+
+field.widget.settings.state_field_rules:
+  type: mapping
+  label: 'State field rules widget settings'
+  mapping:
+    no_transition_behavior:
+      type: string
+      label: 'No transition behavior'
+    no_transition_message:
+      type: string
+      label: 'No transition message'
+    conditions:
+      type: sequence
+      label: 'Conditional rules'
+      sequence:
+        type: mapping
+        label: 'Rule'
+        mapping:
+          state:
+            type: string
+            label: 'Target state ID'
+          field:
+            type: string
+            label: 'Target field name'
+          required:
+            type: boolean
+            label: 'Required'
+    state_filters:
+      type: mapping
+      label: 'State metadata filters'
+    transition_filters:
+      type: mapping
+      label: 'Transition metadata filters'
+    filter_logic:
+      type: string
+      label: 'Filter logic between keys (and/or)'
+    show_workflow_diagram:
+      type: boolean
+      label: 'Show workflow diagram'

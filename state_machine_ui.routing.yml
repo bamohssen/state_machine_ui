@@ -1,0 +1,67 @@
+# --- Workflow Groups ---
+
+entity.workflow_group_config.collection:
+  path: '/admin/config/workflow/state-machine/groups'
+  defaults:
+    _entity_list: 'workflow_group_config'
+    _title: 'Workflow Groups'
+  requirements:
+    _permission: 'administer state machine workflows'
+
+entity.workflow_group_config.add_form:
+  path: '/admin/config/workflow/state-machine/groups/add'
+  defaults:
+    _entity_form: 'workflow_group_config.add'
+    _title: 'Add workflow group'
+  requirements:
+    _permission: 'administer state machine workflows'
+
+entity.workflow_group_config.edit_form:
+  path: '/admin/config/workflow/state-machine/groups/{workflow_group_config}'
+  defaults:
+    _entity_form: 'workflow_group_config.edit'
+    _title: 'Edit workflow group'
+  requirements:
+    _permission: 'administer state machine workflows'
+
+entity.workflow_group_config.delete_form:
+  path: '/admin/config/workflow/state-machine/groups/{workflow_group_config}/delete'
+  defaults:
+    _entity_form: 'workflow_group_config.delete'
+    _title: 'Delete workflow group'
+  requirements:
+    _permission: 'administer state machine workflows'
+
+# --- Workflows ---
+
+entity.workflow_state_machine.collection:
+  path: '/admin/config/workflow/state-machine'
+  defaults:
+    _entity_list: 'workflow_state_machine'
+    _title: 'State Machine Workflows'
+  requirements:
+    _permission: 'administer state machine workflows'
+
+entity.workflow_state_machine.add_form:
+  path: '/admin/config/workflow/state-machine/add'
+  defaults:
+    _entity_form: 'workflow_state_machine.add'
+    _title: 'Add workflow'
+  requirements:
+    _permission: 'administer state machine workflows'
+
+entity.workflow_state_machine.edit_form:
+  path: '/admin/config/workflow/state-machine/{workflow_state_machine}'
+  defaults:
+    _entity_form: 'workflow_state_machine.edit'
+    _title: 'Edit workflow'
+  requirements:
+    _permission: 'administer state machine workflows'
+
+entity.workflow_state_machine.delete_form:
+  path: '/admin/config/workflow/state-machine/{workflow_state_machine}/delete'
+  defaults:
+    _entity_form: 'workflow_state_machine.delete'
+    _title: 'Delete workflow'
+  requirements:
+    _permission: 'administer state machine workflows'

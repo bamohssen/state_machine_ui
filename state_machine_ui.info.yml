@@ -1,0 +1,8 @@
+name: 'State Machine UI'
+type: module
+description: 'Admin UI for State Machine workflows: manage groups, states, transitions and a custom widget.'
+core_version_requirement: ^10.3 || ^11
+package: Workflow
+dependencies:
+  - state_machine:state_machine
+configure: entity.workflow_group_config.collection

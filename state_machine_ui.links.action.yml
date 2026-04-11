@@ -1,0 +1,11 @@
+entity.workflow_state_machine.add_form:
+  route_name: entity.workflow_state_machine.add_form
+  title: 'Add workflow'
+  appears_on:
+    - entity.workflow_state_machine.collection
+
+entity.workflow_group_config.add_form:
+  route_name: entity.workflow_group_config.add_form
+  title: 'Add group'
+  appears_on:
+    - entity.workflow_group_config.collection

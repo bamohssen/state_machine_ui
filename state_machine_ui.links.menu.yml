@@ -1,0 +1,11 @@
+entity.workflow_state_machine.collection:
+  title: 'State Machine Workflows'
+  description: 'Manage State Machine workflows.'
+  route_name: entity.workflow_state_machine.collection
+  parent: system.admin_config_workflow
+
+entity.workflow_group_config.collection:
+  title: 'Workflow Groups'
+  description: 'Manage State Machine workflow groups.'
+  route_name: entity.workflow_group_config.collection
+  parent: entity.workflow_state_machine.collection

@@ -1,0 +1,7 @@
+mermaid:
+  js:
+    /libraries/mermaid/dist/mermaid.min.js: { minified: true, preprocess: false }
+    js/mermaid-render.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
