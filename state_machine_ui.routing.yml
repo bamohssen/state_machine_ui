@@ -1,5 +1,3 @@
-# --- Workflow Groups ---
-
 entity.workflow_group_config.collection:
   path: '/admin/config/workflow/state-machine/groups'
   defaults:
@@ -32,8 +30,6 @@ entity.workflow_group_config.delete_form:
   requirements:
     _permission: 'administer state machine workflows'
 
-# --- Workflows ---
-
 entity.workflow_state_machine.collection:
   path: '/admin/config/workflow/state-machine'
   defaults:
@@ -65,3 +61,75 @@ entity.workflow_state_machine.delete_form:
     _title: 'Delete workflow'
   requirements:
     _permission: 'administer state machine workflows'
+
+entity.workflow_metadata_schema.collection:
+  path: '/admin/config/workflow/state-machine/metadata-schemas'
+  defaults:
+    _entity_list: 'workflow_metadata_schema'
+    _title: 'Metadata schemas'
+  requirements:
+    _permission: 'administer state machine workflows'
+
+entity.workflow_metadata_schema.add_form:
+  path: '/admin/config/workflow/state-machine/metadata-schemas/add'
+  defaults:
+    _entity_form: 'workflow_metadata_schema.add'
+    _title: 'Add metadata schema'
+  requirements:
+    _permission: 'administer state machine workflows'
+
+entity.workflow_metadata_schema.edit_form:
+  path: '/admin/config/workflow/state-machine/metadata-schemas/{workflow_metadata_schema}'
+  defaults:
+    _entity_form: 'workflow_metadata_schema.edit'
+    _title: 'Edit metadata schema'
+  requirements:
+    _permission: 'administer state machine workflows'
+
+entity.workflow_metadata_schema.delete_form:
+  path: '/admin/config/workflow/state-machine/metadata-schemas/{workflow_metadata_schema}/delete'
+  defaults:
+    _entity_form: 'workflow_metadata_schema.delete'
+    _title: 'Delete metadata schema'
+  requirements:
+    _permission: 'administer state machine workflows'
+
+entity.workflow_transition.collection:
+  path: '/admin/config/workflow/state-machine/{workflow_state_machine}/transitions'
+  defaults:
+    _controller: '\Drupal\state_machine_ui\Controller\WorkflowTransitionListController::list'
+    _title_callback: '\Drupal\state_machine_ui\Controller\WorkflowTransitionListController::title'
+  requirements:
+    _permission: 'administer state machine workflows'
+
+entity.workflow_transition.add_form:
+  path: '/admin/config/workflow/state-machine/{workflow_state_machine}/transitions/add'
+  defaults:
+    _entity_form: 'workflow_transition.add'
+    _title: 'Add transition'
+  requirements:
+    _permission: 'administer state machine workflows'
+
+entity.workflow_transition.edit_form:
+  path: '/admin/config/workflow/state-machine/{workflow_state_machine}/transitions/{workflow_transition}'
+  defaults:
+    _entity_form: 'workflow_transition.edit'
+    _title: 'Edit transition'
+  requirements:
+    _permission: 'administer state machine workflows'
+  options:
+    parameters:
+      workflow_transition:
+        type: entity:workflow_transition
+
+entity.workflow_transition.delete_form:
+  path: '/admin/config/workflow/state-machine/{workflow_state_machine}/transitions/{workflow_transition}/delete'
+  defaults:
+    _entity_form: 'workflow_transition.delete'
+    _title: 'Delete transition'
+  requirements:
+    _permission: 'administer state machine workflows'
+  options:
+    parameters:
+      workflow_transition:
+        type: entity:workflow_transition

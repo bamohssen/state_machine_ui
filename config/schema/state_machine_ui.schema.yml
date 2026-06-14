@@ -8,13 +8,16 @@ state_machine_ui.workflow_group.*:
     label:
       type: label
       label: 'Label'
+    langcode:
+      type: langcode
+      label: 'Language code'
     entity_type:
       type: string
       label: 'Entity type ID'
 
-state_machine_ui.workflow.*:
+state_machine_ui.metadata_schema.*:
   type: config_entity
-  label: 'State Machine Workflow'
+  label: 'Workflow Metadata Schema'
   mapping:
     id:
       type: string
@@ -22,31 +25,12 @@ state_machine_ui.workflow.*:
     label:
       type: label
       label: 'Label'
-    description:
-      type: text
-      label: 'Description'
-    group:
-      type: string
-      label: 'Workflow group ID'
-    entity_bindings:
-      type: sequence
-      label: 'Entity bindings'
-      sequence:
-        type: mapping
-        label: 'Binding'
-        mapping:
-          entity_type:
-            type: string
-            label: 'Entity type ID'
-          bundle:
-            type: string
-            label: 'Bundle'
-          field_name:
-            type: string
-            label: 'Status field name'
+    langcode:
+      type: langcode
+      label: 'Language code'
     field_definitions:
       type: sequence
-      label: 'Custom field definitions'
+      label: 'Field definitions'
       sequence:
         type: mapping
         label: 'Field definition'
@@ -63,6 +47,35 @@ state_machine_ui.workflow.*:
           description:
             type: text
             label: 'Help text'
+
+state_machine_ui.workflow.*:
+  type: config_entity
+  label: 'State Machine Workflow'
+  mapping:
+    id:
+      type: string
+      label: 'Machine name'
+    label:
+      type: label
+      label: 'Label'
+    langcode:
+      type: langcode
+      label: 'Language code'
+    description:
+      type: text
+      label: 'Description'
+    group:
+      type: string
+      label: 'Workflow group ID'
+    default_state:
+      type: string
+      label: 'Default (initial) state machine name'
+    state_metadata_schema:
+      type: string
+      label: 'State metadata schema ID'
+    transition_metadata_schema:
+      type: string
+      label: 'Transition metadata schema ID'
     states:
       type: sequence
       label: 'States'
@@ -79,39 +92,85 @@ state_machine_ui.workflow.*:
           description:
             type: text
             label: 'Description'
-          is_initial:
-            type: boolean
-            label: 'Is initial state'
+          weight:
+            type: integer
+            label: 'Weight'
           fields:
-            type: mapping
+            type: ignore
             label: 'Custom field values'
-    transitions:
+
+state_machine_ui.transition.*:
+  type: config_entity
+  label: 'Workflow Transition'
+  mapping:
+    id:
+      type: string
+      label: 'Machine name'
+    label:
+      type: label
+      label: 'Label'
+    langcode:
+      type: langcode
+      label: 'Language code'
+    workflow:
+      type: string
+      label: 'Workflow ID'
+    key:
+      type: string
+      label: 'Transition key'
+    from:
       type: sequence
-      label: 'Transitions'
+      label: 'From states'
       sequence:
-        type: mapping
-        label: 'Transition'
-        mapping:
-          key:
-            type: string
-            label: 'Machine name'
-          label:
-            type: label
-            label: 'Label'
-          from:
-            type: sequence
-            label: 'From states'
-            sequence:
-              type: string
-              label: 'State key'
-          to:
-            type: string
-            label: 'To state'
+        type: string
+        label: 'State key'
+    to:
+      type: string
+      label: 'To state'
+    weight:
+      type: integer
+      label: 'Weight'
+    fields:
+      type: ignore
+      label: 'Custom field values'
 
 field.widget.settings.state_field_rules:
   type: mapping
   label: 'State field rules widget settings'
   mapping:
+    is_required:
+      type: boolean
+      label: 'Is required'
+    select_label:
+      type: string
+      label: 'Select label'
+    show_empty_option:
+      type: boolean
+      label: 'Show empty option'
+    empty_option_label:
+      type: string
+      label: 'Empty option label'
+    option_label_source:
+      type: string
+      label: 'Option label source'
+      constraints:
+        Choice:
+          - state
+          - transition
+    comment_mode:
+      type: string
+      label: 'Comment mode'
+      constraints:
+        Choice:
+          - disabled
+          - optional
+          - required
+    comment_label:
+      type: string
+      label: 'Comment label'
+    check_transition_access:
+      type: boolean
+      label: 'Check per-transition permission'
     no_transition_behavior:
       type: string
       label: 'No transition behavior'
@@ -131,6 +190,13 @@ field.widget.settings.state_field_rules:
           field:
             type: string
             label: 'Target field name'
+          visibility:
+            type: string
+            label: 'Visibility'
+            constraints:
+              Choice:
+                - show
+                - hide
           required:
             type: boolean
             label: 'Required'
@@ -146,3 +212,9 @@ field.widget.settings.state_field_rules:
     show_workflow_diagram:
       type: boolean
       label: 'Show workflow diagram'
+    show_history:
+      type: boolean
+      label: 'Show transition history'
+    history_limit:
+      type: integer
+      label: 'History entries to display'

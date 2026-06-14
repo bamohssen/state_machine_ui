@@ -1,0 +1,27 @@
+entity.workflow_state_machine.edit_form:
+  title: 'Edit'
+  route_name: entity.workflow_state_machine.edit_form
+  base_route: entity.workflow_state_machine.edit_form
+
+entity.workflow_transition.collection:
+  title: 'Transitions'
+  route_name: entity.workflow_transition.collection
+  base_route: entity.workflow_state_machine.edit_form
+
+state_machine_ui.collection.workflow_groups:
+  title: 'Workflow groups'
+  route_name: entity.workflow_group_config.collection
+  base_route: entity.workflow_state_machine.collection
+  weight: 0
+
+state_machine_ui.collection.workflows:
+  title: 'Workflows'
+  route_name: entity.workflow_state_machine.collection
+  base_route: entity.workflow_state_machine.collection
+  weight: 10
+
+state_machine_ui.collection.metadata_schemas:
+  title: 'Metadata schemas'
+  route_name: entity.workflow_metadata_schema.collection
+  base_route: entity.workflow_state_machine.collection
+  weight: 20

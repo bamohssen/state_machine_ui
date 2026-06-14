@@ -1,0 +1,41 @@
+id: article_publishing
+label: 'Article publishing'
+description: 'Editorial workflow for node articles: draft → review → published → archived.'
+group: content
+default_state: draft
+metadata_schema: article_status
+dependencies:
+  config:
+    - state_machine_ui.workflow_group.content
+    - state_machine_ui.metadata_schema.article_status
+  module:
+    - node
+states:
+  - key: draft
+    label: 'Draft'
+    description: 'Work in progress, not visible to visitors.'
+    weight: 0
+    fields:
+      audience: []
+      section: []
+  - key: review
+    label: 'In review'
+    description: 'Submitted for editorial review.'
+    weight: 1
+    fields:
+      audience: []
+      section: []
+  - key: published
+    label: 'Published'
+    description: 'Live and visible to all visitors.'
+    weight: 2
+    fields:
+      audience: [general]
+      section: [news]
+  - key: archived
+    label: 'Archived'
+    description: 'No longer active; kept for reference.'
+    weight: 3
+    fields:
+      audience: []
+      section: []

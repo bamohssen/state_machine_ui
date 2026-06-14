@@ -4,33 +4,37 @@ declare(strict_types=1);
 
 namespace Drupal\state_machine_ui\Service;
 
-use Drupal\state_machine\WorkflowManagerInterface;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 
 /**
  * Reads custom metadata from State Machine workflow plugin definitions.
  *
- * Accesses raw YAML data via $workflow->getPluginDefinition() which preserves
- * all keys from the YAML, including those not used by WorkflowState/Transition.
+ * Delegates to a prioritised list of MetadataParserInterface implementations
+ * (injected via the state_machine_ui.metadata_parser tagged-iterator). The
+ * first parser that supports a given workflow ID wins.
  *
  * Memoizes parsed results per workflow ID within the request.
+ *
+ * @internal
  */
 final class WorkflowMetadataReader implements WorkflowMetadataReaderInterface {
 
   /**
-   * Reserved keys that are not metadata.
-   */
-  private const STATE_RESERVED_KEYS = ['label'];
-  private const TRANSITION_RESERVED_KEYS = ['label', 'from', 'to'];
-
-  /**
-   * Parsed cache: workflow_id => ['states' => [...], 'transitions' => [...]]
+   * Parsed cache indexed by workflow ID.
    *
    * @var array<string, array{states: array<string, array<string, string[]>>, transitions: array<string, array<string, string[]>>}>
    */
   private array $cache = [];
 
+  /**
+   * Constructs a WorkflowMetadataReader.
+   *
+   * @param iterable<\Drupal\state_machine_ui\Service\MetadataParserInterface> $parsers
+   *   Ordered collection of metadata parsers (highest priority first).
+   */
   public function __construct(
-    protected readonly WorkflowManagerInterface $workflowManager,
+    #[AutowireIterator('state_machine_ui.metadata_parser')]
+    private readonly iterable $parsers,
   ) {}
 
   /**
@@ -66,9 +70,16 @@ final class WorkflowMetadataReader implements WorkflowMetadataReaderInterface {
   }
 
   /**
-   * Parses and caches the metadata from a workflow plugin definition.
+   * Parses and caches the metadata for a workflow.
+   *
+   * Iterates parsers in priority order and delegates to the first one that
+   * supports the given workflow ID.
+   *
+   * @param string $workflow_id
+   *   The workflow plugin/entity ID.
    *
    * @return array{states: array<string, array<string, string[]>>, transitions: array<string, array<string, string[]>>}
+   *   Parsed metadata split by states and transitions.
    */
   private function parse(string $workflow_id): array {
     if (isset($this->cache[$workflow_id])) {
@@ -77,29 +88,10 @@ final class WorkflowMetadataReader implements WorkflowMetadataReaderInterface {
 
     $result = ['states' => [], 'transitions' => []];
 
-    try {
-      $workflow = $this->workflowManager->createInstance($workflow_id);
-    }
-    catch (\Exception) {
-      $this->cache[$workflow_id] = $result;
-      return $result;
-    }
-
-    $definition = $workflow->getPluginDefinition();
-
-    // Parse states.
-    foreach ($definition['states'] ?? [] as $state_id => $state_def) {
-      $metadata = $this->extractMetadata($state_def, self::STATE_RESERVED_KEYS);
-      if (!empty($metadata)) {
-        $result['states'][$state_id] = $metadata;
-      }
-    }
-
-    // Parse transitions.
-    foreach ($definition['transitions'] ?? [] as $transition_id => $transition_def) {
-      $metadata = $this->extractMetadata($transition_def, self::TRANSITION_RESERVED_KEYS);
-      if (!empty($metadata)) {
-        $result['transitions'][$transition_id] = $metadata;
+    foreach ($this->parsers as $parser) {
+      if ($parser->supports($workflow_id)) {
+        $result = $parser->parse($workflow_id);
+        break;
       }
     }
 
@@ -108,62 +100,29 @@ final class WorkflowMetadataReader implements WorkflowMetadataReaderInterface {
   }
 
   /**
-   * Extracts metadata keys from a definition, excluding reserved keys.
-   *
-   * Normalizes scalar values to single-element arrays.
-   *
-   * @param array $definition
-   *   The raw state or transition definition from YAML.
-   * @param string[] $reserved_keys
-   *   Keys to exclude.
-   *
-   * @return array<string, string[]>
-   *   Normalized metadata.
-   */
-  private function extractMetadata(array $definition, array $reserved_keys): array {
-    $metadata = [];
-
-    foreach ($definition as $key => $value) {
-      if (in_array($key, $reserved_keys, TRUE)) {
-        continue;
-      }
-      // Normalize scalar to array.
-      $metadata[$key] = is_array($value)
-        ? array_map('strval', array_values($value))
-        : [(string) $value];
-    }
-
-    return $metadata;
-  }
-
-  /**
    * Aggregates metadata values across all items (states or transitions).
    *
-   * Collects unique values for each key across all items.
+   * Merges per-item metadata into a single map, collecting unique string
+   * values for each key across all items. Preserves insertion order.
    *
    * @param array<string, array<string, string[]>> $items
-   *   Parsed metadata per item ID.
+   *   Parsed metadata indexed by item ID (state key or transition key).
    *
    * @return array<string, string[]>
-   *   Aggregated unique values per key.
+   *   Aggregated unique values per metadata key.
    */
   private function aggregate(array $items): array {
-    $aggregated = [];
+    $seen = [];
 
     foreach ($items as $item_metadata) {
-      foreach ($item_metadata as $key => $values) {
-        if (!isset($aggregated[$key])) {
-          $aggregated[$key] = [];
-        }
+      foreach ($item_metadata as $field_key => $values) {
         foreach ($values as $value) {
-          if (!in_array($value, $aggregated[$key], TRUE)) {
-            $aggregated[$key][] = $value;
-          }
+          $seen[$field_key][$value] = TRUE;
         }
       }
     }
 
-    return $aggregated;
+    return array_map('array_keys', $seen);
   }
 
 }

@@ -5,15 +5,26 @@
  * Install, update and uninstall functions for state_machine_ui.
  */
 
+declare(strict_types=1);
+
+use Drupal\state_machine_ui\Constant\StateMachineUiConstants;
+use Drupal\state_machine_ui\Entity\WorkflowTransition;
+use Drupal\state_machine_ui\Hook\StateMachineUiHooks;
+
+/**
+ * Implements hook_requirements().
+ */
+function state_machine_ui_requirements(string $phase): array {
+  return \Drupal::service(StateMachineUiHooks::class)->requirements($phase);
+}
+
 /**
  * Implements hook_install().
  *
  * Migrates existing State Machine workflows declared in YAML files
- * into Config Entities managed by this module.
- *
- * After installation, the YAML files and the Config Entities coexist.
- * The YAML-declared workflows take priority (via YamlDiscovery).
- * The developer should remove the YAML files after verifying the migration.
+ * into Config Entities managed by this module. Transitions found in
+ * the YAML definitions are created as standalone WorkflowTransition
+ * entities related to their parent workflow.
  */
 function state_machine_ui_install(): void {
   $group_manager = \Drupal::service('plugin.manager.workflow_group');
@@ -21,70 +32,55 @@ function state_machine_ui_install(): void {
   $entity_type_manager = \Drupal::entityTypeManager();
   $logger = \Drupal::logger('state_machine_ui');
 
-  $group_storage = $entity_type_manager->getStorage('workflow_group_config');
-  $workflow_storage = $entity_type_manager->getStorage('workflow_state_machine');
+  $group_storage = $entity_type_manager->getStorage(StateMachineUiConstants::ENTITY_GROUP);
+  $workflow_storage = $entity_type_manager->getStorage(StateMachineUiConstants::ENTITY_WORKFLOW);
+  $transition_storage = $entity_type_manager->getStorage(StateMachineUiConstants::ENTITY_TRANSITION);
 
   $groups_migrated = 0;
   $workflows_migrated = 0;
+  $transitions_migrated = 0;
 
-  // Migrate workflow groups.
-  $group_definitions = $group_manager->getDefinitions();
-  foreach ($group_definitions as $group_id => $group_def) {
-    // Skip if already exists as Config Entity.
+  foreach ($group_manager->getDefinitions() as $group_id => $group_def) {
     if ($group_storage->load($group_id) !== NULL) {
       continue;
     }
-
     $group_storage->create([
       'id' => $group_id,
       'label' => $group_def['label'] ?? $group_id,
       'entity_type' => $group_def['entity_type'] ?? '',
     ])->save();
-
     $groups_migrated++;
   }
 
-  // Migrate workflows.
-  $workflow_definitions = $workflow_manager->getDefinitions();
-  foreach ($workflow_definitions as $workflow_id => $workflow_def) {
-    // Skip if already exists as Config Entity.
+  foreach ($workflow_manager->getDefinitions() as $workflow_id => $workflow_def) {
     if ($workflow_storage->load($workflow_id) !== NULL) {
       continue;
     }
-
     $group = $workflow_def['group'] ?? '';
     if ($group === '') {
       continue;
     }
 
-    // Convert states from plugin definition.
     $states = [];
+    $default_state = '';
+    $weight = 0;
     foreach ($workflow_def['states'] ?? [] as $state_id => $state_def) {
+      if ($default_state === '') {
+        $default_state = (string) $state_id;
+      }
       $states[] = [
         'key' => $state_id,
         'label' => $state_def['label'] ?? $state_id,
         'description' => '',
-        'is_initial' => count($states) === 0,
+        'weight' => $weight++,
         'fields' => [],
       ];
     }
 
-    // Convert transitions from plugin definition.
-    $transitions = [];
-    foreach ($workflow_def['transitions'] ?? [] as $transition_id => $transition_def) {
-      $from = $transition_def['from'] ?? [];
-      if (is_string($from)) {
-        $from = [$from];
-      }
-      $transitions[] = [
-        'key' => $transition_id,
-        'label' => $transition_def['label'] ?? $transition_id,
-        'from' => $from,
-        'to' => $transition_def['to'] ?? '',
-      ];
-    }
-
-    if (empty($states) || empty($transitions)) {
+    if (empty($states) || empty($workflow_def['transitions'] ?? [])) {
+      $logger->warning('Skipped migration of workflow @id: missing states or transitions.', [
+        '@id' => $workflow_id,
+      ]);
       continue;
     }
 
@@ -93,24 +89,51 @@ function state_machine_ui_install(): void {
       'label' => $workflow_def['label'] ?? $workflow_id,
       'description' => '',
       'group' => $group,
-      'entity_bindings' => [],
-      'field_definitions' => [],
+      'default_state' => $default_state,
       'states' => $states,
-      'transitions' => $transitions,
     ])->save();
 
     $workflows_migrated++;
+
+    $transition_weight = 0;
+    foreach ($workflow_def['transitions'] as $transition_id => $transition_def) {
+      $from = $transition_def['from'] ?? [];
+      if (is_string($from)) {
+        $from = [$from];
+      }
+      $transition_storage->create([
+        'id' => WorkflowTransition::buildId($workflow_id, (string) $transition_id),
+        'label' => $transition_def['label'] ?? $transition_id,
+        'workflow' => $workflow_id,
+        'key' => $transition_id,
+        'from' => array_values($from),
+        'to' => $transition_def['to'] ?? '',
+        'weight' => $transition_weight++,
+      ])->save();
+      $transitions_migrated++;
+    }
   }
 
   if ($groups_migrated > 0 || $workflows_migrated > 0) {
-    $logger->notice('Migrated @groups workflow group(s) and @workflows workflow(s) from YAML to Config Entities.', [
+    $logger->notice('Migrated @groups group(s), @workflows workflow(s) and @transitions transition(s) from YAML to config entities.', [
       '@groups' => $groups_migrated,
       '@workflows' => $workflows_migrated,
+      '@transitions' => $transitions_migrated,
     ]);
-
     \Drupal::messenger()->addWarning(t(
-      'State Machine UI: migrated @groups group(s) and @workflows workflow(s) from YAML to Config Entities. The YAML files still take priority. Remove them to use the UI-managed versions.',
-      ['@groups' => $groups_migrated, '@workflows' => $workflows_migrated],
+      'State Machine UI: migrated @groups group(s), @workflows workflow(s) and @transitions transition(s) from YAML to config entities. The YAML files still take priority. Remove them to use the UI-managed versions.',
+      ['@groups' => $groups_migrated, '@workflows' => $workflows_migrated, '@transitions' => $transitions_migrated],
     ));
   }
+}
+
+/**
+ * Implements hook_uninstall().
+ *
+ * Clears the workflow plugin caches; Drupal removes the entities via
+ * config dependencies.
+ */
+function state_machine_ui_uninstall(): void {
+  \Drupal::service('plugin.manager.workflow')->clearCachedDefinitions();
+  \Drupal::service('plugin.manager.workflow_group')->clearCachedDefinitions();
 }

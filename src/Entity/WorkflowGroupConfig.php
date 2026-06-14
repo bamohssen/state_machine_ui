@@ -44,8 +44,29 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  */
 class WorkflowGroupConfig extends ConfigEntityBase {
 
+  /**
+   * Machine name.
+   */
   protected string $id = '';
+
+  /**
+   * Label.
+   */
   protected string $label = '';
+
+  /**
+   * Entity type ID this group binds workflows to (e.g. "node").
+   */
   protected string $entity_type = '';
+
+  /**
+   * Returns the entity type ID this group applies to.
+   *
+   * @return string
+   *   The entity type ID, e.g. "node".
+   */
+  public function getWorkflowEntityType(): string {
+    return $this->entity_type;
+  }
 
 }

@@ -10,6 +10,10 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  * Workflow config entity.
  *
  * Exposed as a State Machine workflow plugin via hook_workflows_alter().
+ * State values are stored in each state's `fields` map; the allowed keys
+ * are governed by the referenced WorkflowMetadataSchema (if any).
+ * Transitions live in their own WorkflowTransition config entity, related
+ * by a workflow ID reference.
  *
  * @ConfigEntityType(
  *   id = "workflow_state_machine",
@@ -34,10 +38,10 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *     "label",
  *     "description",
  *     "group",
- *     "entity_bindings",
- *     "field_definitions",
+ *     "default_state",
+ *     "state_metadata_schema",
+ *     "transition_metadata_schema",
  *     "states",
- *     "transitions",
  *   },
  *   links = {
  *     "collection" = "/admin/config/workflow/state-machine",
@@ -49,21 +53,109 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  */
 class WorkflowStateMachine extends ConfigEntityBase {
 
+  /**
+   * Machine name.
+   */
   protected string $id = '';
+
+  /**
+   * Label.
+   */
   protected string $label = '';
+
+  /**
+   * Optional free-text description.
+   */
   protected string $description = '';
+
+  /**
+   * Parent WorkflowGroupConfig ID.
+   */
   protected string $group = '';
 
-  /** @var array<int, array{entity_type: string, bundle: string, field_name: string}> */
-  protected array $entity_bindings = [];
+  /**
+   * Default state key applied to new entities.
+   */
+  protected string $default_state = '';
 
-  /** @var array<int, array{key: string, label: string, type: string, description: string}> */
-  protected array $field_definitions = [];
+  /**
+   * Optional WorkflowMetadataSchema ID for state metadata; '' when none.
+   */
+  protected string $state_metadata_schema = '';
 
-  /** @var array<int, array<string, mixed>> */
+  /**
+   * Optional WorkflowMetadataSchema ID for transition metadata; '' when none.
+   */
+  protected string $transition_metadata_schema = '';
+
+  /**
+   * Ordered list of states.
+   *
+   * Each entry has keys: key, label, description, weight, fields (map).
+   *
+   * @var array<int, array<string, mixed>>
+   */
   protected array $states = [];
 
-  /** @var array<int, array{key: string, label: string, from: string[], to: string}> */
-  protected array $transitions = [];
+  /**
+   * Returns the optional description of this workflow's purpose.
+   *
+   * @return string
+   *   The workflow description, or an empty string if none is set.
+   */
+  public function getDescription(): string {
+    return $this->description;
+  }
+
+  /**
+   * Returns the workflow group ID.
+   *
+   * @return string
+   *   The machine name of the referenced WorkflowGroupConfig entity.
+   */
+  public function getGroup(): string {
+    return $this->group;
+  }
+
+  /**
+   * Returns the machine name of the initial state for new entities.
+   *
+   * @return string
+   *   The default state machine name, or empty string if none is declared.
+   */
+  public function getDefaultState(): string {
+    return $this->default_state;
+  }
+
+  /**
+   * Returns the optional WorkflowMetadataSchema ID for state metadata.
+   *
+   * @return string
+   *   The schema entity ID, or empty string when none is configured.
+   */
+  public function getStateMetadataSchema(): string {
+    return $this->state_metadata_schema;
+  }
+
+  /**
+   * Returns the optional WorkflowMetadataSchema ID for transition metadata.
+   *
+   * @return string
+   *   The schema entity ID, or empty string when none is configured.
+   */
+  public function getTransitionMetadataSchema(): string {
+    return $this->transition_metadata_schema;
+  }
+
+  /**
+   * Returns the ordered list of state definitions.
+   *
+   * @return array<int, array<string, mixed>>
+   *   Indexed array of state maps, each with keys: key, label, description,
+   *   weight, fields.
+   */
+  public function getStates(): array {
+    return $this->states;
+  }
 
 }

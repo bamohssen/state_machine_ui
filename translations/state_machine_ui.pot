@@ -1,0 +1,660 @@
+# State Machine UI translation template.
+# Copyright (C) 2026 State Machine UI contributors
+# This file is distributed under the same license as the State Machine UI package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: state_machine_ui\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-13T00:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+msgid "State Machine UI"
+msgstr ""
+
+msgid "Admin UI for State Machine workflows: manage groups, states, transitions and a custom widget."
+msgstr ""
+
+msgid "Administer state machine workflows"
+msgstr ""
+
+msgid "Create, edit, and delete workflow groups and workflows."
+msgstr ""
+
+msgid "View state machine diagram"
+msgstr ""
+
+msgid "See the Mermaid.js workflow diagram on entity forms."
+msgstr ""
+
+# Menu, actions, routing
+
+msgid "Manage State Machine workflows."
+msgstr ""
+
+msgid "Manage State Machine workflow groups."
+msgstr ""
+
+msgid "Metadata schemas"
+msgstr ""
+
+msgid "Manage workflow metadata schemas."
+msgstr ""
+
+msgid "Add workflow"
+msgstr ""
+
+msgid "Add workflow group"
+msgstr ""
+
+msgid "Add metadata schema"
+msgstr ""
+
+msgid "Edit workflow"
+msgstr ""
+
+msgid "Edit workflow group"
+msgstr ""
+
+msgid "Edit metadata schema"
+msgstr ""
+
+msgid "Delete workflow"
+msgstr ""
+
+msgid "Delete workflow group"
+msgstr ""
+
+msgid "Delete metadata schema"
+msgstr ""
+
+# Entity labels (annotations)
+
+msgid "State Machine Workflow"
+msgstr ""
+
+msgid "State Machine Workflows"
+msgstr ""
+
+msgid "Workflow Group"
+msgstr ""
+
+msgid "Workflow Groups"
+msgstr ""
+
+msgid "Workflow Metadata Schema"
+msgstr ""
+
+msgid "Workflow Metadata Schemas"
+msgstr ""
+
+# Field type labels
+
+msgid "Text"
+msgstr ""
+
+msgid "List (multiple values)"
+msgstr ""
+
+msgid "Boolean (yes/no)"
+msgstr ""
+
+msgid "Number"
+msgstr ""
+
+# Constraint / validation
+
+msgid "@label must contain only lowercase letters, digits, and underscores."
+msgstr ""
+
+msgid "Value"
+msgstr ""
+
+msgid "The field %label only accepts lowercase letters, digits and underscores. Invalid: %values"
+msgstr ""
+
+msgid "@field is required when transitioning to @state."
+msgstr ""
+
+# Status messages
+
+msgid "Created @noun %label."
+msgstr ""
+
+msgid "Updated @noun %label."
+msgstr ""
+
+msgid "Created workflow %label."
+msgstr ""
+
+msgid "Updated workflow %label."
+msgstr ""
+
+msgid "State Machine UI: migrated @groups group(s) and @workflows workflow(s) from YAML to Config Entities. The YAML files still take priority. Remove them to use the UI-managed versions."
+msgstr ""
+
+# Requirements hook
+
+msgid "State Machine UI — Mermaid.js"
+msgstr ""
+
+msgid "Installed"
+msgstr ""
+
+msgid "Not installed"
+msgstr ""
+
+msgid "The Mermaid.js library is not installed. To enable workflow diagrams, download it and place <code>mermaid.min.js</code> in <code>@path</code>."
+msgstr ""
+
+# List builders
+
+msgid "Workflow"
+msgstr ""
+
+msgid "Machine name"
+msgstr ""
+
+msgid "Group"
+msgstr ""
+
+msgid "None"
+msgstr ""
+
+msgid "Entity type"
+msgstr ""
+
+msgid "Not set"
+msgstr ""
+
+msgid "Schema name"
+msgstr ""
+
+msgid "Fields count"
+msgstr ""
+
+# Shared form strings
+
+msgid "Label"
+msgstr ""
+
+msgid "Key"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "Weight"
+msgstr ""
+
+msgid "Operations"
+msgstr ""
+
+msgid "- Select -"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Help text"
+msgstr ""
+
+# Workflow Group form
+
+msgid "group"
+msgstr ""
+
+msgid "Group name"
+msgstr ""
+
+msgid "The entity type this workflow group applies to."
+msgstr ""
+
+# Workflow form
+
+msgid "Workflow name"
+msgstr ""
+
+msgid "A human-readable name, e.g. \"Article publication\" or \"Patient pre-admission\"."
+msgstr ""
+
+msgid "Optional. Describe the purpose of this workflow."
+msgstr ""
+
+msgid "Workflow group"
+msgstr ""
+
+msgid "Groups are linked to an entity type. <a href=\":url\">Manage groups</a>."
+msgstr ""
+
+msgid "- Select a group -"
+msgstr ""
+
+msgid "Metadata schema"
+msgstr ""
+
+msgid "Select a metadata schema to define which custom fields each state can carry. <a href=\":url\">Manage schemas</a>."
+msgstr ""
+
+msgid "- No metadata schema -"
+msgstr ""
+
+msgid "Diagram preview"
+msgstr ""
+
+# States table
+
+msgid "States"
+msgstr ""
+
+msgid "Define all workflow states. Drag rows to reorder them. Pick the default (initial) state above. <strong>Add states before transitions</strong> — the transition options come from here."
+msgstr ""
+
+msgid "Default state"
+msgstr ""
+
+msgid "State used as initial value for new entities."
+msgstr ""
+
+msgid "No states defined yet."
+msgstr ""
+
+msgid "Add state"
+msgstr ""
+
+msgid "Optional"
+msgstr ""
+
+msgid "Weight for @label"
+msgstr ""
+
+msgid "Edit metadata"
+msgstr ""
+
+msgid "Close metadata"
+msgstr ""
+
+msgid "Metadata for state: @label"
+msgstr ""
+
+msgid "Apply metadata"
+msgstr ""
+
+msgid "One value per line. Allowed: lowercase letters, digits, underscores."
+msgstr ""
+
+msgid "Allowed: lowercase letters, digits, underscores."
+msgstr ""
+
+# Transitions table
+
+msgid "Transitions"
+msgstr ""
+
+msgid "Define allowed transitions. Each needs a label, machine name, one or more <em>From</em> states, and one <em>To</em> state."
+msgstr ""
+
+msgid "From"
+msgstr ""
+
+msgid "To"
+msgstr ""
+
+msgid "No transitions defined. Add states first, then add transitions here."
+msgstr ""
+
+msgid "Add transition"
+msgstr ""
+
+# Metadata schema form
+
+msgid "metadata schema"
+msgstr ""
+
+msgid "Field definitions"
+msgstr ""
+
+msgid "Define metadata fields that each workflow state can carry (e.g. <em>tags</em>, <em>category</em>). These can be used for metadata filtering in the widget."
+msgstr ""
+
+msgid "No fields defined yet."
+msgstr ""
+
+msgid "Add field"
+msgstr ""
+
+# Conditions table
+
+msgid "Conditional field rules"
+msgstr ""
+
+msgid "Fields referenced in rules are hidden by default. They become visible when the matching target state is selected. If marked required, validation is enforced server-side."
+msgstr ""
+
+msgid "<p><strong>Purpose:</strong> rules let you ask the editor to fill specific fields <em>only when needed</em>, depending on the transition they are firing. For example, require a \"Rejection reason\" field only when sending an article back to draft, or a \"Publication date\" field only when publishing. This keeps the form clean: fields stay hidden until the user picks the matching target state.</p><p><strong>Behavior:</strong> fields referenced in rules are hidden by default and become visible when the matching target state is selected. If marked required, the validation is enforced server-side (no JS bypass).</p>"
+msgstr ""
+
+msgid "<p><strong>Purpose:</strong> rules let you ask the editor to fill specific fields <em>only when needed</em>, depending on the transition they are firing. For example, require a \"Rejection reason\" field only when sending an article back to draft, or a \"Publication date\" field only when publishing. This keeps the form clean: fields stay hidden until the user picks the matching target state.</p><p><strong>How rules combine:</strong></p><ul><li><strong>Field with no rule</strong> — visible as usual, no constraint added.</li><li><strong>Field with one or more \"Show\" rules</strong> — works as a <em>whitelist</em>: the field appears only when one of the listed target states is selected. Any \"Hide\" rule on the same field is ignored.</li><li><strong>Field with only \"Hide\" rules</strong> — visible everywhere <em>except</em> for the listed target states.</li><li><strong>\"Required\" checkbox</strong> — the constraint applies <em>only when</em> the field is effectively visible for the selected target state. A hidden field is never validated as missing.</li></ul><p><strong>Both layers enforce:</strong> Drupal's <code>#states</code> drives the live JS visibility, and a server-side validator re-checks every required rule on submit (no JS bypass).</p>"
+msgstr ""
+
+msgid "<p><strong>Purpose:</strong> show specific fields only when the editor fires the matching transition. Example: a \"Rejection reason\" that appears only when sending the article back to draft.</p><p><strong>Behavior:</strong></p><ul><li>No rule — field visible as usual.</li><li>\"Show\" rule — field visible only for the listed states (whitelist).</li><li>Only \"Hide\" rules — field visible everywhere except the listed states.</li><li>\"Required\" — enforced only when the field is visible for the chosen state.</li></ul>"
+msgstr ""
+
+msgid "<p><strong>Purpose:</strong> show certain fields only at the right moment. For example, a \"Rejection reason\" that appears only when an article is sent back to draft.</p><p><strong>Behavior:</strong></p><ul><li>Without a rule, the field is visible as usual.</li><li>With a \"Show\" rule, the field appears only for the chosen states.</li><li>With only \"Hide\" rules, the field is visible everywhere except for the chosen states.</li><li>When \"Required\" is checked, the field is only required while it is visible.</li></ul>"
+msgstr ""
+
+msgid "Target state"
+msgstr ""
+
+msgid "Field"
+msgstr ""
+
+msgid "Visibility"
+msgstr ""
+
+msgid "Required"
+msgstr ""
+
+msgid "No rules defined. Click \"Add rule\" to create one."
+msgstr ""
+
+msgid "Add rule"
+msgstr ""
+
+msgid "State"
+msgstr ""
+
+msgid "Show"
+msgstr ""
+
+msgid "Hide"
+msgstr ""
+
+# State field widget
+
+msgid "State with rules"
+msgstr ""
+
+msgid "When no transition is available"
+msgstr ""
+
+msgid "Hide the select, show current state only"
+msgstr ""
+
+msgid "Show a custom message"
+msgstr ""
+
+msgid "No transition message"
+msgstr ""
+
+msgid "No transitions available."
+msgstr ""
+
+msgid "Show workflow diagram"
+msgstr ""
+
+msgid "Display a Mermaid.js diagram of possible transitions from the current state."
+msgstr ""
+
+msgid "Mermaid.js library not found. Install it in <code>libraries/mermaid/dist/</code>."
+msgstr ""
+
+msgid "Metadata filtering"
+msgstr ""
+
+msgid "Filter which states and transitions are shown based on workflow metadata."
+msgstr ""
+
+msgid "<p><strong>Purpose:</strong> narrow the selector down to the states and transitions that carry specific metadata. For example, only show states tagged \"editorial\" or transitions marked \"urgent\".</p><p><strong>Behavior:</strong></p><ul><li>Without any filter, every state and transition is shown.</li><li>Tick the metadata values you want to keep.</li><li>Inside one metadata key, every ticked value must be present.</li><li>Between metadata keys, choose AND or OR with the setting below.</li><li>This filter only changes the display, not the workflow permissions.</li></ul>"
+msgstr ""
+
+msgid "State metadata filters"
+msgstr ""
+
+msgid "Transition metadata filters"
+msgstr ""
+
+msgid "Filter logic between keys"
+msgstr ""
+
+msgid "AND — must match all keys"
+msgstr ""
+
+msgid "OR — must match at least one key"
+msgstr ""
+
+msgid "No transition: show message \"@msg\""
+msgstr ""
+
+msgid "No transition: hide select"
+msgstr ""
+
+msgid "Conditional rules: @show show, @hide hide"
+msgstr ""
+
+msgid "State filters: @keys"
+msgstr ""
+
+msgid "Transition filters: @keys"
+msgstr ""
+
+msgid "Filter logic: @logic"
+msgstr ""
+
+msgid "Diagram: enabled"
+msgstr ""
+
+msgid "Diagram: enabled (library missing)"
+msgstr ""
+
+msgid "Current state"
+msgstr ""
+
+msgid "Transition to"
+msgstr ""
+
+msgid "Possible transitions"
+msgstr ""
+
+# Config schema labels
+
+msgid "Default (initial) state machine name"
+msgstr ""
+
+msgid "Metadata schema ID"
+msgstr ""
+
+# Transition entity / dedicated form
+
+msgid "Transition"
+msgstr ""
+
+msgid "Manage transitions"
+msgstr ""
+
+msgid "Transitions of @workflow"
+msgstr ""
+
+msgid "Save the workflow first, then manage its transitions on the dedicated page."
+msgstr ""
+
+msgid "From states"
+msgstr ""
+
+msgid "Allowed origin states. At least one must be selected."
+msgstr ""
+
+msgid "To state"
+msgstr ""
+
+msgid "Target state reached when the transition fires."
+msgstr ""
+
+msgid "Select at least one origin state."
+msgstr ""
+
+msgid "Select a target state."
+msgstr ""
+
+msgid "transition"
+msgstr ""
+
+# Per-transition permissions
+
+msgid "Use transition %transition in workflow %workflow"
+msgstr ""
+
+msgid "Allows firing the %transition transition."
+msgstr ""
+
+msgid "Check per-transition permission"
+msgstr ""
+
+msgid "Only show transitions the current user has the matching \"use … transition\" permission for."
+msgstr ""
+
+msgid "Per-transition permission: enforced"
+msgstr ""
+
+# Widget — required setting
+
+msgid "Is required"
+msgstr ""
+
+msgid "When unchecked, the state select is not marked as required even if the field is required at the storage level."
+msgstr ""
+
+msgid "Is required: yes"
+msgstr ""
+
+msgid "Is required: no"
+msgstr ""
+
+# Widget — option labels / empty option / custom label
+
+msgid "Custom select label"
+msgstr ""
+
+msgid "Leave empty to use \"Transition to\"."
+msgstr ""
+
+msgid "Option labels"
+msgstr ""
+
+msgid "Use the target state label (default) or the transition label as the visible option."
+msgstr ""
+
+msgid "Target state label"
+msgstr ""
+
+msgid "Transition label"
+msgstr ""
+
+msgid "Option labels: transition"
+msgstr ""
+
+msgid "Show an empty option as default"
+msgstr ""
+
+msgid "When checked, the selector starts unselected and the user must explicitly choose a transition."
+msgstr ""
+
+msgid "Empty option label"
+msgstr ""
+
+msgid "Leave empty to use \"- Choose -\"."
+msgstr ""
+
+msgid "Empty option: shown"
+msgstr ""
+
+msgid "- Choose -"
+msgstr ""
+
+# Widget — transition comment
+
+msgid "Transition comment"
+msgstr ""
+
+msgid "Show a comment field next to the selector. Stored as the revision log message when the entity is revisionable."
+msgstr ""
+
+msgid "Comment field label"
+msgstr ""
+
+msgid "Leave empty to use \"Transition comment\"."
+msgstr ""
+
+msgid "Disabled"
+msgstr ""
+
+msgid "Comment: @mode"
+msgstr ""
+
+# Widget — transition history
+
+msgid "Show transition history"
+msgstr ""
+
+msgid "Display a table of past state changes below the selector. Requires the entity to be revisionable."
+msgstr ""
+
+msgid "History entries to display"
+msgstr ""
+
+msgid "Use -1 to show every recorded transition."
+msgstr ""
+
+msgid "Transition history"
+msgstr ""
+
+msgid "When"
+msgstr ""
+
+msgid "By"
+msgstr ""
+
+msgid "Comment"
+msgstr ""
+
+msgid "No transitions yet."
+msgstr ""
+
+msgid "Anonymous"
+msgstr ""
+
+msgid "User @uid"
+msgstr ""
+
+msgid "(creation)"
+msgstr ""
+
+msgid "History: last @n entries"
+msgstr ""
+
+msgid "History: all entries"
+msgstr ""
+
+# Local tasks / operations
+
+msgid "Workflows"
+msgstr ""
+
+msgid "Workflow groups"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Delete"
+msgstr ""

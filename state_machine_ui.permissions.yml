@@ -6,3 +6,6 @@ administer state machine workflows:
 view state machine diagram:
   title: 'View state machine diagram'
   description: 'See the Mermaid.js workflow diagram on entity forms.'
+
+permission_callbacks:
+  - Drupal\state_machine_ui\Access\WorkflowPermissions::permissions

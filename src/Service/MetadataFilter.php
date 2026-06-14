@@ -4,22 +4,32 @@ declare(strict_types=1);
 
 namespace Drupal\state_machine_ui\Service;
 
+use Drupal\state_machine_ui\Constant\FilterLogic;
+
 /**
  * Filters states and transitions based on metadata criteria.
  *
  * Intra-key: AND — the item must have ALL checked values for a given key.
  * Inter-key: configurable — AND (must pass all keys) or OR (pass any key).
+ *
+ * @internal
  */
-final class MetadataFilter implements MetadataFilterInterface {
+final readonly class MetadataFilter implements MetadataFilterInterface {
 
+  /**
+   * Constructs a MetadataFilter instance.
+   *
+   * @param \Drupal\state_machine_ui\Service\WorkflowMetadataReaderInterface $metadataReader
+   *   The workflow metadata reader.
+   */
   public function __construct(
-    protected readonly WorkflowMetadataReaderInterface $metadataReader,
+    private WorkflowMetadataReaderInterface $metadataReader,
   ) {}
 
   /**
    * {@inheritdoc}
    */
-  public function filterStates(string $workflow_id, array $state_ids, array $filters, string $logic = 'and'): array {
+  public function filterStates(string $workflow_id, array $state_ids, array $filters, FilterLogic $logic = FilterLogic::And): array {
     if (empty($filters)) {
       return $state_ids;
     }
@@ -37,7 +47,7 @@ final class MetadataFilter implements MetadataFilterInterface {
   /**
    * {@inheritdoc}
    */
-  public function filterTransitions(string $workflow_id, array $transition_ids, array $filters, string $logic = 'and'): array {
+  public function filterTransitions(string $workflow_id, array $transition_ids, array $filters, FilterLogic $logic = FilterLogic::And): array {
     if (empty($filters)) {
       return $transition_ids;
     }
@@ -56,24 +66,23 @@ final class MetadataFilter implements MetadataFilterInterface {
    * Checks if an item's metadata matches the filters.
    *
    * @param array<string, string[]> $item_metadata
-   *   The item's metadata (from the reader).
+   *   The item's metadata values indexed by key.
    * @param array<string, string[]> $filters
-   *   The configured filters.
-   * @param string $logic
-   *   'and' or 'or' for inter-key logic.
+   *   The configured filters indexed by metadata key.
+   * @param \Drupal\state_machine_ui\Constant\FilterLogic $logic
+   *   Inter-key logic.
    *
    * @return bool
    *   TRUE if the item passes the filters.
    */
-  private function matchesFilters(array $item_metadata, array $filters, string $logic): bool {
+  private function matchesFilters(array $item_metadata, array $filters, FilterLogic $logic): bool {
     $results = [];
 
-    foreach ($filters as $key => $required_values) {
+    foreach ($filters as $metadata_key => $required_values) {
       if (empty($required_values)) {
         continue;
       }
-      $item_values = $item_metadata[$key] ?? [];
-      // Intra-key AND: the item must have ALL required values.
+      $item_values = $item_metadata[$metadata_key] ?? [];
       $results[] = $this->matchesIntraKey($item_values, $required_values);
     }
 
@@ -81,8 +90,7 @@ final class MetadataFilter implements MetadataFilterInterface {
       return TRUE;
     }
 
-    // Inter-key logic.
-    return $logic === 'or'
+    return $logic === FilterLogic::Or
       ? in_array(TRUE, $results, TRUE)
       : !in_array(FALSE, $results, TRUE);
   }
@@ -91,16 +99,16 @@ final class MetadataFilter implements MetadataFilterInterface {
    * Checks intra-key AND: item must contain ALL required values.
    *
    * @param string[] $item_values
-   *   Values the item has for this key.
+   *   Values the item has for this metadata key.
    * @param string[] $required_values
-   *   Values the filter requires.
+   *   Values the filter requires for this key.
    *
    * @return bool
    *   TRUE if the item has all required values.
    */
   private function matchesIntraKey(array $item_values, array $required_values): bool {
-    foreach ($required_values as $required) {
-      if (!in_array($required, $item_values, TRUE)) {
+    foreach ($required_values as $required_value) {
+      if (!in_array($required_value, $item_values, TRUE)) {
         return FALSE;
       }
     }

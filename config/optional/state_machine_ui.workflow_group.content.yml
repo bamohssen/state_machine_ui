@@ -1,0 +1,6 @@
+id: content
+label: 'Content'
+entity_type: node
+dependencies:
+  module:
+    - node

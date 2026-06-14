@@ -1,0 +1,13 @@
+{
+    "name": "drupal/state_machine_ui",
+    "description": "Admin UI and visual workflow diagrams for Drupal's state_machine module.",
+    "type": "drupal-module",
+    "license": "GPL-2.0-or-later",
+    "homepage": "https://www.drupal.org/project/state_machine_ui",
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=8.3",
+        "drupal/core": "^11.1",
+        "drupal/state_machine": "^1.14"
+    }
+}

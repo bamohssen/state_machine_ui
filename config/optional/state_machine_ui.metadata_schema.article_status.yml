@@ -1,0 +1,11 @@
+id: article_status
+label: 'Article status metadata'
+field_definitions:
+  - key: audience
+    label: 'Audience'
+    type: list
+    description: 'Target audience for this article.'
+  - key: section
+    label: 'Section'
+    type: list
+    description: 'Editorial section (e.g. news, opinion).'

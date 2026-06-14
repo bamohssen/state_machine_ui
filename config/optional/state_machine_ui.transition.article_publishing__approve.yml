@@ -1,0 +1,11 @@
+id: article_publishing__approve
+label: 'Approve'
+workflow: article_publishing
+key: approve
+from:
+  - review
+to: published
+weight: 1
+dependencies:
+  config:
+    - state_machine_ui.workflow.article_publishing

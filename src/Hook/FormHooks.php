@@ -4,25 +4,44 @@ declare(strict_types=1);
 
 namespace Drupal\state_machine_ui\Hook;
 
+use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
 use Drupal\Core\Entity\EntityFormInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Hook\Attribute\Hook;
+use Drupal\state_machine_ui\Constant\StateMachineUiConstants;
+use Drupal\state_machine_ui\Constraint\MetadataValueConstraint;
 use Drupal\state_machine_ui\Service\ConditionalFieldResolverInterface;
 use Drupal\state_machine_ui\Validation\ConditionalRequiredValidatorInterface;
 
 /**
  * Handles hook_form_alter logic for the state_field_rules widget.
+ *
+ * Applies conditional visibility (#states) to fields and registers server-side
+ * required validation based on the conditions stored in widget settings.
  */
-final class FormHooks {
+final readonly class FormHooks {
 
   public function __construct(
-    protected readonly ConditionalFieldResolverInterface $resolver,
-    protected readonly ConditionalRequiredValidatorInterface $validator,
+    private ConditionalFieldResolverInterface $resolver,
+    private ConditionalRequiredValidatorInterface $validator,
   ) {}
 
   /**
-   * Processes hook_form_alter for entity forms.
+   * Processes hook_form_alter for entity forms using state_field_rules widget.
+   *
+   * Iterates form display components and, for each component using the
+   * state_field_rules widget that has conditions configured, applies
+   * conditional visibility and registers the server-side validator.
+   *
+   * @param array $form
+   *   The form render array, modified in place.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current form state.
+   * @param string $form_id
+   *   The form ID.
    */
+  #[Hook('form_alter')]
   public function formAlter(array &$form, FormStateInterface $form_state, string $form_id): void {
     $form_object = $form_state->getFormObject();
     if (!$form_object instanceof EntityFormInterface) {
@@ -39,7 +58,7 @@ final class FormHooks {
     }
 
     foreach ($form_display->getComponents() as $field_name => $component) {
-      if (!is_array($component) || ($component['type'] ?? '') !== 'state_field_rules') {
+      if (!is_array($component) || ($component['type'] ?? '') !== StateMachineUiConstants::WIDGET_TYPE) {
         continue;
       }
       $settings = $component['settings'] ?? [];
@@ -55,17 +74,30 @@ final class FormHooks {
   }
 
   /**
-   * Applies conditional rules to the form.
+   * Applies conditional rules to the form render array.
+   *
+   * Attaches Drupal #states visibility arrays to each field referenced by the
+   * conditions, then registers the server-side required validator so that PHP
+   * enforces required fields even if JavaScript is disabled.
+   *
+   * @param array $form
+   *   The form render array, modified in place.
+   * @param string $state_field_name
+   *   The name of the state field driving the conditions.
+   * @param array $conditions
+   *   The conditions array from widget settings.
    */
   private function applyConditions(array &$form, string $state_field_name, array $conditions): void {
-    $selector = ':input[name="' . $state_field_name . '[0][value]"]';
-    $referenced = $this->resolver->getReferencedFields($conditions);
+    // SEC-3: guard against CSS selector injection before embedding in selector.
+    $safe_name = MetadataValueConstraint::sanitize($state_field_name);
+    $selector = ':input[name="' . $safe_name . '[0][value]"]';
+    $referenced_fields = $this->resolver->getReferencedFields($conditions);
 
-    foreach ($referenced as $field_name) {
+    foreach ($referenced_fields as $field_name) {
       if (!isset($form[$field_name])) {
         continue;
       }
-      $states = $this->resolver->resolveStates($conditions, $field_name, $selector);
+      $states = $this->resolver->getStates($conditions, $field_name, $selector);
       if (!empty($states['#states'])) {
         $form[$field_name]['#states'] = $states['#states'];
       }
@@ -79,11 +111,18 @@ final class FormHooks {
   }
 
   /**
-   * Gets the form display from the form state.
+   * Gets the form display object from form state storage.
+   *
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current form state.
+   *
+   * @return \Drupal\Core\Entity\Display\EntityFormDisplayInterface|null
+   *   The form display object, or NULL if not found.
    */
-  private function getFormDisplay(FormStateInterface $form_state): mixed {
+  private function getFormDisplay(FormStateInterface $form_state): ?EntityFormDisplayInterface {
     $storage = $form_state->getStorage();
-    return $storage['form_display'] ?? NULL;
+    $display = $storage['form_display'] ?? NULL;
+    return $display instanceof EntityFormDisplayInterface ? $display : NULL;
   }
 
 }

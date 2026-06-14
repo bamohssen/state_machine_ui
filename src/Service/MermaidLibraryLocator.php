@@ -4,20 +4,18 @@ declare(strict_types=1);
 
 namespace Drupal\state_machine_ui\Service;
 
-use Drupal\Core\Extension\ModuleExtensionList;
-
 /**
  * Detects whether the Mermaid.js library is installed locally.
  *
  * Checks for the library in the standard Drupal libraries directory:
- * libraries/mermaid/dist/mermaid.min.js
+ * libraries/mermaid/dist/mermaid.min.js.
  */
-final class MermaidLibraryLocator {
+final class MermaidLibraryLocator implements MermaidLibraryLocatorInterface {
 
   /**
    * Relative path from DRUPAL_ROOT to the mermaid.min.js file.
    */
-  private const LIBRARY_PATH = 'libraries/mermaid/dist/mermaid.min.js';
+  private const string LIBRARY_PATH = 'libraries/mermaid/dist/mermaid.min.js';
 
   /**
    * Cached result.

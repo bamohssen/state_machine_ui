@@ -10,8 +10,12 @@ use Drupal\Core\Entity\EntityInterface;
 /**
  * Lists Workflow Group config entities.
  */
-class WorkflowGroupListBuilder extends ConfigEntityListBuilder {
+final class WorkflowGroupListBuilder extends ConfigEntityListBuilder {
 
+  /**
+   * {@inheritdoc}
+   */
+  #[\Override]
   public function buildHeader(): array {
     return [
       'label' => $this->t('Group'),
@@ -20,6 +24,10 @@ class WorkflowGroupListBuilder extends ConfigEntityListBuilder {
     ] + parent::buildHeader();
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  #[\Override]
   public function buildRow(EntityInterface $entity): array {
     return [
       'label' => $entity->label(),

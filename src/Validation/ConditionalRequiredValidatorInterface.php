@@ -8,6 +8,8 @@ use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Validates conditionally required fields server-side.
+ *
+ * @api
  */
 interface ConditionalRequiredValidatorInterface {
 

@@ -1,0 +1,11 @@
+id: article_publishing__restore
+label: 'Restore to draft'
+workflow: article_publishing
+key: restore
+from:
+  - archived
+to: draft
+weight: 4
+dependencies:
+  config:
+    - state_machine_ui.workflow.article_publishing

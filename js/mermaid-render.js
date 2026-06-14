@@ -50,6 +50,9 @@
         }).catch(function (err) {
           // On error, keep the <pre> visible as fallback.
           preElement.classList.add('state-machine-mermaid-error');
+          if (typeof console !== 'undefined') {
+            console.error('[state_machine_ui] Mermaid render error:', err);
+          }
         });
       });
     }

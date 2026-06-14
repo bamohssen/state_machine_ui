@@ -1,8 +1,9 @@
 name: 'State Machine UI'
 type: module
 description: 'Admin UI for State Machine workflows: manage groups, states, transitions and a custom widget.'
-core_version_requirement: ^10.3 || ^11
+core_version_requirement: ^11.1
+php: '8.3'
 package: Workflow
 dependencies:
   - state_machine:state_machine
-configure: entity.workflow_group_config.collection
+configure: entity.workflow_state_machine.collection

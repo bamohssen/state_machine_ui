@@ -9,3 +9,15 @@ entity.workflow_group_config.add_form:
   title: 'Add group'
   appears_on:
     - entity.workflow_group_config.collection
+
+entity.workflow_metadata_schema.add_form:
+  route_name: entity.workflow_metadata_schema.add_form
+  title: 'Add metadata schema'
+  appears_on:
+    - entity.workflow_metadata_schema.collection
+
+entity.workflow_transition.add_form:
+  route_name: entity.workflow_transition.add_form
+  title: 'Add transition'
+  appears_on:
+    - entity.workflow_transition.collection

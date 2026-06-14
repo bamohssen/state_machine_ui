@@ -10,6 +10,8 @@ namespace Drupal\state_machine_ui\Service;
  * Metadata are all keys in the YAML that are not reserved by State Machine.
  * States reserved keys: 'label'.
  * Transitions reserved keys: 'label', 'from', 'to'.
+ *
+ * @api
  */
 interface WorkflowMetadataReaderInterface {
 

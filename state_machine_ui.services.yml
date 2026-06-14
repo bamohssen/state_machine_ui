@@ -1,20 +1,25 @@
 services:
   _defaults:
     autowire: true
+    autoconfigure: true
 
   Drupal\state_machine_ui\Hook\StateMachineUiHooks:
     class: Drupal\state_machine_ui\Hook\StateMachineUiHooks
 
   Drupal\state_machine_ui\Hook\FormHooks:
     class: Drupal\state_machine_ui\Hook\FormHooks
-    arguments:
-      $resolver: '@state_machine_ui.conditional_field_resolver'
-      $validator: '@state_machine_ui.conditional_required_validator'
+
+  logger.channel.state_machine_ui:
+    parent: logger.channel_base
+    arguments: ['state_machine_ui']
 
   state_machine_ui.mermaid_builder:
     class: Drupal\state_machine_ui\Service\MermaidDiagramBuilder
 
   Drupal\state_machine_ui\Service\MermaidDiagramBuilder:
+    alias: state_machine_ui.mermaid_builder
+
+  Drupal\state_machine_ui\Service\MermaidDiagramBuilderInterface:
     alias: state_machine_ui.mermaid_builder
 
   state_machine_ui.mermaid_locator:
@@ -23,13 +28,29 @@ services:
   Drupal\state_machine_ui\Service\MermaidLibraryLocator:
     alias: state_machine_ui.mermaid_locator
 
-  state_machine_ui.conditions_table_builder:
-    class: Drupal\state_machine_ui\Form\ConditionsTableBuilder
-    arguments:
-      $workflowManager: '@plugin.manager.workflow'
+  Drupal\state_machine_ui\Service\MermaidLibraryLocatorInterface:
+    alias: state_machine_ui.mermaid_locator
 
-  Drupal\state_machine_ui\Form\ConditionsTableBuilder:
-    alias: state_machine_ui.conditions_table_builder
+  state_machine_ui.metadata_parser.entity:
+    class: Drupal\state_machine_ui\Service\EntityMetadataParser
+
+  state_machine_ui.metadata_parser.plugin:
+    class: Drupal\state_machine_ui\Service\PluginMetadataParser
+
+  state_machine_ui.workflow_metadata_reader:
+    class: Drupal\state_machine_ui\Service\WorkflowMetadataReader
+
+  state_machine_ui.metadata_reader:
+    alias: state_machine_ui.workflow_metadata_reader
+
+  Drupal\state_machine_ui\Service\WorkflowMetadataReaderInterface:
+    alias: state_machine_ui.workflow_metadata_reader
+
+  state_machine_ui.metadata_filter:
+    class: Drupal\state_machine_ui\Service\MetadataFilter
+
+  Drupal\state_machine_ui\Service\MetadataFilterInterface:
+    alias: state_machine_ui.metadata_filter
 
   state_machine_ui.conditional_field_resolver:
     class: Drupal\state_machine_ui\Service\ConditionalFieldResolver
@@ -43,16 +64,59 @@ services:
   Drupal\state_machine_ui\Validation\ConditionalRequiredValidatorInterface:
     alias: state_machine_ui.conditional_required_validator
 
-  state_machine_ui.metadata_reader:
-    class: Drupal\state_machine_ui\Service\WorkflowMetadataReader
-    arguments:
-      $workflowManager: '@plugin.manager.workflow'
+  state_machine_ui.default_state_resolver:
+    class: Drupal\state_machine_ui\Service\DefaultStateResolver
 
-  Drupal\state_machine_ui\Service\WorkflowMetadataReaderInterface:
-    alias: state_machine_ui.metadata_reader
+  Drupal\state_machine_ui\Service\DefaultStateResolverInterface:
+    alias: state_machine_ui.default_state_resolver
 
-  state_machine_ui.metadata_filter:
-    class: Drupal\state_machine_ui\Service\MetadataFilter
+  state_machine_ui.workflow_repository:
+    class: Drupal\state_machine_ui\Service\WorkflowRepository
 
-  Drupal\state_machine_ui\Service\MetadataFilterInterface:
-    alias: state_machine_ui.metadata_filter
+  Drupal\state_machine_ui\Service\WorkflowRepositoryInterface:
+    alias: state_machine_ui.workflow_repository
+
+  state_machine_ui.workflow_transition_repository:
+    class: Drupal\state_machine_ui\Service\WorkflowTransitionRepository
+
+  Drupal\state_machine_ui\Service\WorkflowTransitionRepositoryInterface:
+    alias: state_machine_ui.workflow_transition_repository
+
+  state_machine_ui.transition_access_checker:
+    class: Drupal\state_machine_ui\Service\TransitionAccessChecker
+
+  Drupal\state_machine_ui\Service\TransitionAccessCheckerInterface:
+    alias: state_machine_ui.transition_access_checker
+
+  state_machine_ui.transition_options_builder:
+    class: Drupal\state_machine_ui\Service\TransitionOptionsBuilder
+
+  Drupal\state_machine_ui\Service\TransitionOptionsBuilderInterface:
+    alias: state_machine_ui.transition_options_builder
+
+  state_machine_ui.transition_history_provider:
+    class: Drupal\state_machine_ui\Service\RevisionTransitionHistoryProvider
+
+  Drupal\state_machine_ui\Service\TransitionHistoryProviderInterface:
+    alias: state_machine_ui.transition_history_provider
+
+  Drupal\state_machine_ui\Service\WorkflowFieldAccessInterface:
+    alias: state_machine_ui.workflow_repository
+
+  Drupal\state_machine_ui\Service\TransitionCheckerInterface:
+    alias: state_machine_ui.workflow_repository
+
+  Drupal\state_machine_ui\Service\WorkflowMetadataQueryInterface:
+    alias: state_machine_ui.workflow_repository
+
+  state_machine_ui.states_table_builder:
+    class: Drupal\state_machine_ui\Form\StatesTableBuilder
+
+  Drupal\state_machine_ui\Form\StatesTableBuilder:
+    alias: state_machine_ui.states_table_builder
+
+  state_machine_ui.conditions_table_builder:
+    class: Drupal\state_machine_ui\Form\ConditionsTableBuilder
+
+  Drupal\state_machine_ui\Form\ConditionsTableBuilder:
+    alias: state_machine_ui.conditions_table_builder
